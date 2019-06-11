@@ -1,7 +1,12 @@
 'use strict'
 
+const moment = require('moment')
+
+const { createPayableByTransaction } = require('./hooks/PayableTransaction')
+const { validateAndFormatTransaction } = require('./hooks/ValidateNumberCard')
+
 module.exports = (sequelize, DataTypes) => {
-  const Schedule = sequelize.define(
+  const Transaction = sequelize.define(
     'Transaction',
     {
       id: {
@@ -10,9 +15,14 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true
       },
       value: {
-        type: DataTypes.NUMERIC(10,2),
+        type: DataTypes.NUMERIC(10, 2),
         allowNull: false,
         field: 'value'
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: 'description'
       },
       methodPayment: {
         type: DataTypes.ENUM('debit_card', 'credit_card'),
@@ -30,9 +40,14 @@ module.exports = (sequelize, DataTypes) => {
         field: 'name_holder_card'
       },
       expireAtCard: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        field: 'expire_at_card'
+        type: DataTypes.DATEONLY,
+        field: 'expire_at_card',
+        get: function () {
+          return moment(this.getDataValue('expireAtCard')).format('MM/YY')
+        },
+        set: function (val) {
+          return this.setDataValue('expireAtCard', moment(val, 'MM/YY'))
+        }
       },
       cvvCard: {
         type: DataTypes.INTEGER,
@@ -43,14 +58,26 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATE,
         field: 'created_at',
-        defaultValue: new Date()
-      },
+        defaultValue: DataTypes.NOW
+      }
     },
     {
-      tableName: 'transactions'
+      tableName: 'transactions',
+      hooks: {
+        beforeCreate: validateAndFormatTransaction,
+        afterCreate: createPayableByTransaction
+      }
     }
   )
 
+  Transaction.associate = models => {
+    Transaction.hasOne(models.Payable, {
+      as: 'payable'
+    })
+    Transaction.belongsTo(models.User, {
+      as: 'user'
+    })
+  }
 
   return Transaction
 }

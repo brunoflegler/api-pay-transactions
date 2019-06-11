@@ -15,7 +15,7 @@ module.exports = {
       },
       payment_date: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       fee: {
         allowNull: false,
@@ -24,8 +24,7 @@ module.exports = {
       status: {
         allowNull: false,
         type: Sequelize.ENUM('paid', 'waiting_funds')
-      },
-      
+      }
     })
   },
 

@@ -31,16 +31,21 @@ module.exports = {
       },
       expire_at_card: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       cvv_card: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       created_at: {
         allowNull: false,
-        type: Sequelize.DATE
-      },
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+      }
     })
   },
 

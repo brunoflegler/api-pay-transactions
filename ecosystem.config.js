@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'api-rs',
+      name: 'api-pay-transactions',
       script: 'src/index.js',
       instances: '1',
       autorestart: true,

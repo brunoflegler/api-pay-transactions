@@ -2,30 +2,31 @@ const jwt = require('jsonwebtoken')
 const authConfig = require('../../config/auth')
 const { promisify } = require('util')
 
-const { Users } = require('../models')
+const { User } = require('../models')
 
 module.exports = async (req, res, next) => {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    return res.status(401).json({ error: 'Authorization not provided' })
+    return res.status(401).json({ error: 'Token not provided' })
   }
 
-  const [bearer, currentUser] = authHeader.split(' ')
-
-  if (bearer !== 'Bearer') {
-    return res.status(401).json({ error: 'Authorization not provided' })
-  }
+  const [, token] = authHeader.split(' ')
 
   try {
-    if (!currentUser) {
-      return res.status(401).json({ error: 'User current not provided' })
+    const decoded = await promisify(jwt.verify)(token, authConfig.secret)
+
+    const user = await User.findByPk(decoded.id)
+
+    if (!user) {
+      return res.status(401).json({ error: 'User not found' })
     }
 
-    req.userCurrent = currentUser
+    req.user = { id: user.id }
 
     next()
-  } catch (error) {
-    return res.status(401).json({ error })
+  } catch (err) {
+    console.log(err)
+    return res.status(401).json({ err })
   }
 }
