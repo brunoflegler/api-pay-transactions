@@ -2,7 +2,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const server = require('../../src/index')
 
-const { User, Transaction } = require('../../src/app/models')
+const { Transaction } = require('../../src/app/models')
 const factories = require('../factories')
 
 const { expect } = chai
