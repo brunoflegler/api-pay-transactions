@@ -24,9 +24,18 @@ Or run Yarn install command:
 $ yarn install
 ```
 
+
+### Migrations
+
+To run the test suite, first install the dependencies, and configure .env.test and run migrations
+
+```sh
+$ sequelize db:migrate
+```
+
 ### Test
 
-To run the test suite, first install the dependencies, and configure .env.test and run npm test:
+To run the test suite, first install the dependencies, and configure .env.test, migrations and run npm test:
 
 ```sh
 $ npm test
@@ -39,7 +48,7 @@ $ yarn test
 
 ### Run development
 
-To run, first install the dependencies, and configure .env and run npm test:
+To run, first install the dependencies, and configure .env, migrations and run npm test:
 
 Run NPM development:
 
@@ -55,7 +64,7 @@ $ yarn dev
 
 ### Run production
 
-To run, first install the dependencies, and configure .env and run npm test:
+To run, first install the dependencies, and configure .env, migrations and run npm test:
 
 Run Pm2 development:
 
