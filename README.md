@@ -52,3 +52,14 @@ Or run Yarn development:
 ```sh
 $ yarn dev
 ```
+
+### Run production
+
+To run, first install the dependencies, and configure .env and run npm test:
+
+Run Pm2 development:
+
+```sh
+$ pm2 start ecosystem.config.js --env production
+```
+
