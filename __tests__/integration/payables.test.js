@@ -19,7 +19,18 @@ describe('Payables by user', () => {
     })
   })
 
-  it('POST /payables/availables it should be everything the customer has already received ', async () => {
+  it('GET /payables it should be not able list payables', async () => {
+    const user = await factories.create('User')
+    const token = await user.generateToken()
+
+    const response = await chai
+      .request(server)
+      .get('/payables')
+      .set('Authorization', `Bearer ${token}`)
+    expect(response).to.be.status(200)
+  })
+
+  it('GET /payables/availables it should be everything the customer has already received ', async () => {
     const user = await factories.create('User')
 
     await factories.create('Transaction', {
@@ -47,7 +58,7 @@ describe('Payables by user', () => {
     expect(available).to.equals(194.0)
   })
 
-  it('POST /payables/waitingfunds it should be everything the customer has to receive', async () => {
+  it('GET /payables/waitingfunds it should be everything the customer has to receive', async () => {
     const user = await factories.create('User')
 
     await factories.create('Transaction', {

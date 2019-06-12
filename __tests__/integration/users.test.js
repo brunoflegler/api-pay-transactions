@@ -16,6 +16,31 @@ describe('Authenticate a user', () => {
   })
 
   describe('Sign in', () => {
+    it('GET /users it should be not able list users', async () => {
+      const user = await factories.create('User')
+      const token = await user.generateToken()
+
+      const response = await chai
+        .request(server)
+        .get('/users')
+        .set('Authorization', `Bearer ${token}`)
+      expect(response).to.be.status(200)
+    })
+
+    it('POST /sessions it should be able validate password user', async () => {
+      const user = await factories.create('User', { password: '654321' })
+
+      const response = await chai
+        .request(server)
+        .post('/sessions')
+        .send({
+          email: user.email,
+          password: '123456'
+        })
+
+      expect(response).to.be.status(401)
+    })
+
     it('POST /sessions it should be able authenticate a user', async () => {
       const user = await factories.create('User', { password: '123456' })
 

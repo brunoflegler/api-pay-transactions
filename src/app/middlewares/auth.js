@@ -26,7 +26,6 @@ module.exports = async (req, res, next) => {
 
     next()
   } catch (err) {
-    console.log(err)
-    return res.status(401).json({ err })
+    return res.status(401).json({ error: 'Token not provided' })
   }
 }

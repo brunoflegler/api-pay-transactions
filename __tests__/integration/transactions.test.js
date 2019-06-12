@@ -15,7 +15,40 @@ describe('Transactions by user', () => {
     })
   })
 
-  it('POST /transactions it should be not able transactions without authenticate', async () => {
+  it('GET /transactions it should be not able list transactions', async () => {
+    const user = await factories.create('User')
+    const token = await user.generateToken()
+
+    const response = await chai
+      .request(server)
+      .get('/transactions')
+      .set('Authorization', `Bearer ${token}`)
+    expect(response).to.be.status(200)
+  })
+
+  it('GET /transactions it should be not able doing transactions without found user', async () => {
+    const response = await chai
+      .request(server)
+      .get('/transactions')
+      .set(
+        'Authorization',
+        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTY2LCJpYXQiOjE1NjAzMzg2NjEsImV4cCI6MTU2MDM0MjI2MX0.2GJsHpPDNauCts9hD1L-EkBAiI5_LM8hPIoOkB_7TEg`
+      )
+    expect(response).to.be.status(401)
+  })
+
+  it('GET /transactions it should be not able doing transactions token badly formatted ', async () => {
+    const response = await chai
+      .request(server)
+      .get('/transactions')
+      .set(
+        'Authorization',
+        `Bearer eyJhbGciasdadfasOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTY2LCJpYXQiOjE1NjAzMzg2NjEsImV4cCI6MTU2MDM0MjI2MX0.2GJsHpPDNauCts9hD1L-EkBAiI5_LM8hPIoOkB_7TEg`
+      )
+    expect(response).to.be.status(401)
+  })
+
+  it('POST /transactions it should be not able transactions without authenticate token', async () => {
     const response = await chai
       .request(server)
       .post('/transactions')

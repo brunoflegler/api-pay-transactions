@@ -8,10 +8,9 @@ const validators = require('./app/validators')
 const authMiddleware = require('./app/middlewares/auth')
 
 /**
- * users
+ * users create
  */
 
-Router.get('/users', handle(controllers.UserController.index))
 Router.post('/users', handle(controllers.UserController.store))
 
 /**
@@ -21,6 +20,11 @@ Router.post('/users', handle(controllers.UserController.store))
 Router.post('/sessions', handle(controllers.SessionController.store))
 
 Router.use(authMiddleware)
+
+/**
+ * List user
+ */
+Router.get('/users', handle(controllers.UserController.index))
 
 /**
  * transactions
