@@ -18,6 +18,7 @@ Installation is done using the npm install command:
 ```sh
 $ npm install
 ```
+
 Or run Yarn install command:
 
 ```sh
@@ -39,6 +40,7 @@ To run the test suite, first install the dependencies, and configure .env.test, 
 ```sh
 $ npm test
 ```
+
 Or run Yarn:
 
 ```sh
@@ -70,3 +72,7 @@ Run Pm2 development:
 ```sh
 $ pm2 start ecosystem.config.js --env production
 ```
+
+### Documentation
+
+Follow our use guide for more information. [http://psp.myhobbies.com.br](http://psp.myhobbies.com.br).

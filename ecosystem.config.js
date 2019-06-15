@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'api-pay-transactions',
+      name: 'api-psp',
       script: 'src/index.js',
       instances: '1',
       autorestart: true,
