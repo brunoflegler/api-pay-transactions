@@ -11,7 +11,11 @@ const authMiddleware = require('./app/middlewares/auth')
  * users create
  */
 
-Router.post('/users', handle(controllers.UserController.store))
+Router.post(
+  '/users',
+  validate(validators.User),
+  handle(controllers.UserController.store)
+)
 
 /**
  * sessions

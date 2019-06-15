@@ -44,6 +44,38 @@ Create users
                 name: "Teste de Usuário",
             }
 
++ Response 400 (application/json)
+
+    + body
+
+            {
+                "status": 400,
+                "statusText": "Bad Request",
+                "errors": [
+                    {
+                    "field": [
+                        "password"
+                    ],
+                    "location": "body",
+                    "messages": [
+                        "\"password\" is required"
+                    ],
+                    "types": [
+                        "any.required"
+                    ]
+                    }
+                ]
+            }
+
++ Response 500 (application/json)
+
+    + body
+
+            {
+                "message": "User already exists"
+            }
+
+
 # Authetication [/sessions]
 
 Authentication using jwt
@@ -80,6 +112,14 @@ Authentication using jwt
 
             {
                 token : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA"
+            }
+
++ Response 400 (application/json)
+
+    + body
+
+            {
+                "message": "Invalid password or User not found"
             }
 
 # Group Transactions and Payables
@@ -127,6 +167,13 @@ Default limit 5 and page 1
                 }
             ]
 
++ Response 401 (application/json)
+
+    + body
+
+            {
+                "message": "Token not provided"
+            }
 
 
 ## List All by page/limit [GET /transactions?page={page}&limit={limit}]
@@ -171,6 +218,14 @@ Default limit 5 and page 1
                     "createdAt": "2019-06-11T13:18:55.936Z"
                 }
             ]
+
++ Response 401 (application/json)
+
+    + body
+
+            {
+                "message": "Token not provided"
+            }
 
 
 ## Create [POST]
@@ -218,7 +273,39 @@ Default limit 5 and page 1
                 "cvvCard": 123,
                 "expireAtCard": "06/21",
                 "createdAt": "2019-06-11T13:55:33.147Z"
-            },
+            }
+
++ Response 400 (application/json)
+
+    + body
+
+            {
+                "status": 400,
+                "statusText": "Bad Request",
+                "errors": [
+                    {
+                    "field": [
+                        "cvvCard"
+                    ],
+                    "location": "body",
+                    "messages": [
+                        "\"cvvCard\" is required"
+                    ],
+                    "types": [
+                        "any.required"
+                    ]
+                    }
+                ]
+            }
+
+
++ Response 401 (application/json)
+
+    + body
+
+            {
+                "message": "Token not provided"
+            }
 
 # Payables [/payables]
 
@@ -275,7 +362,13 @@ Default limit 5 and page 1
                 }
             ]
 
++ Response 401 (application/json)
 
+    + body
+
+            {
+                "message": "Token not provided"
+            }
 
 ## List All by page/limit [GET /payables?page={page}&limit={limit}]
 
@@ -332,6 +425,14 @@ Default limit 5 and page 1
                 }
             ]
 
++ Response 401 (application/json)
+
+    + body
+
+            {
+                "message": "Token not provided"
+            }
+
 ## Avaiable payables [GET /payables/availables]
 
 + Request List all
@@ -350,6 +451,14 @@ Default limit 5 and page 1
                 "available": 100.00
             }
 
++ Response 401 (application/json)
+
+    + body
+
+            {
+                "message": "Token not provided"
+            }
+
 ## Waiting funds payables [GET /payables/waitingfunds]
 
 + Request List all
@@ -366,4 +475,12 @@ Default limit 5 and page 1
 
             {
                 "waitingfunds": 1040.00
+            }
+
++ Response 401 (application/json)
+
+    + body
+
+            {
+                "message": "Token not provided"
             }
