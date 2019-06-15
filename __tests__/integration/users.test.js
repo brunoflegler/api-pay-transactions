@@ -121,7 +121,7 @@ describe('Authenticate a user', () => {
         .post('/users')
         .send(user)
 
-      expect(response).to.have.status(500)
+      expect(response).to.have.status(400)
     })
   })
 })
