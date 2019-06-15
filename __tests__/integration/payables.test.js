@@ -1,6 +1,6 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const server = require('../../src/index')
+const server = require('../../src/server')
 
 const { Transaction, User } = require('../../src/app/models')
 const factories = require('../factories')
@@ -80,9 +80,9 @@ describe('Payables by user', () => {
       .get('/payables/waitingfunds')
       .set('Authorization', `Bearer ${token}`)
 
-    const { available } = response.body
+    const { waitingfunds } = response.body
 
     // discount 5% = (100 + 100) * 0.95
-    expect(available).to.equals(190.0)
+    expect(waitingfunds).to.equals(190.0)
   })
 })

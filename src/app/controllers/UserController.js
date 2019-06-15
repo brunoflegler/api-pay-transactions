@@ -11,7 +11,10 @@ class UserController {
   async store (req, res) {
     const { ...data } = req.body
 
-    const user = await User.create({ ...data })
+    const {
+      dataValues: { password, passwordHash, ...user }
+    } = await User.create({ ...data })
+
     return res.json(user)
   }
 }

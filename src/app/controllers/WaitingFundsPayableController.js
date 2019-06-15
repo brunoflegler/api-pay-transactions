@@ -26,7 +26,7 @@ class AvailablePayableController {
 
     const sum = payables.reduce((acc, i) => acc + parseFloat(i.fee), 0)
 
-    return res.json({ available: sum })
+    return res.json({ waitingfunds: sum })
   }
 }
 

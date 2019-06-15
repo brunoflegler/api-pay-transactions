@@ -1,0 +1,369 @@
+FORMAT: 1A
+HOST: http://psp.myhobbies.com.br
+
+# PSP (Payment Service Provider)
+The application is a simple example of transactions and payables
+
+
+# Group Sign in & Sign up
+
+
+## Users [/users]
+
+Create users
+
+## Create users [POST]
+
++ Request Authenticate user
+
+    + Attributes (object)
+        + email : email@teste.com (string, required)
+        + password : 123456 (string, required)
+
+    + Headers
+
+            Content-type: application/json
+
+    + body
+
+            {
+                email: "email@teste.com.br",
+                password: "123456"
+            }
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + id :  5be23beb16ef3a1f4083d919 (string)
+        + email : email@teste.com (string, required)
+
+    + body
+
+            {
+                _id: "5be23beb16ef3a1f4083d919"
+                name: "Teste de Usuário",
+            }
+
+# Authetication [/sessions]
+
+Authentication using jwt
+
+## Autheticate user [POST]
+
+
+
++ Request Authenticate user
+
+    + Attributes (object)
+        + email : email@teste.com (string, required)
+        + password : 123456 (string, required)
+
+    + Headers
+
+            Content-type: application/json
+
+    + body
+
+            {
+                email: "email@teste.com.br",
+                password: "123456"
+            }
+
++ Response 200 (application/json)
+
+    + Attributes (object)
+        + token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...  (string, required)
+
+            Token for authentication
+
+    + body
+
+            {
+                token : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA"
+            }
+
+# Group Transactions and Payables
+
+# Transactions [/transactions]
+
+## List All [GET]
+
+Default limit 5 and page 1
+
++ Request List all
+
+    
+    + Headers
+
+            Content-type: application/json
+            Authorazition: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA
+
++ Response 200 (application/json)
+
+     + body
+
+            [
+                {
+                    "expireAtCard": "06/21",
+                    "id": 150,
+                    "value": "300.01",
+                    "description": "Compra 8",
+                    "methodPayment": "credit_card",
+                    "numberCard": 444,
+                    "nameHolderCard": "Bruno E Rossini",
+                    "cvvCard": 123,
+                    "createdAt": "2019-06-11T13:55:33.147Z"
+                },
+                {
+                    "expireAtCard": "06/21",
+                    "id": 149,
+                    "value": "300.01",
+                    "description": "Compra 7",
+                    "methodPayment": "credit_card",
+                    "numberCard": 444,
+                    "nameHolderCard": "Bruno E Rossini",
+                    "cvvCard": 123,
+                    "createdAt": "2019-06-11T13:18:55.936Z"
+                }
+            ]
+
+
+
+## List All by page/limit [GET /transactions?page={page}&limit={limit}]
+
++ Parameters
+    + page (string)
+    + limit (string)
+
++ Request List all Transactions
+
+    
+    + Headers
+
+            Content-type: application/json
+            Authorazition: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA
+
++ Response 200 (application/json)
+
+     + body
+
+            [
+                {
+                    "expireAtCard": "06/21",
+                    "id": 150,
+                    "value": "300.01",
+                    "description": "Compra 8",
+                    "methodPayment": "credit_card",
+                    "numberCard": 444,
+                    "nameHolderCard": "Bruno E Rossini",
+                    "cvvCard": 123,
+                    "createdAt": "2019-06-11T13:55:33.147Z"
+                },
+                {
+                    "expireAtCard": "06/21",
+                    "id": 149,
+                    "value": "300.01",
+                    "description": "Compra 7",
+                    "methodPayment": "credit_card",
+                    "numberCard": 444,
+                    "nameHolderCard": "Bruno E Rossini",
+                    "cvvCard": 123,
+                    "createdAt": "2019-06-11T13:18:55.936Z"
+                }
+            ]
+
+
+## Create [POST]
+
+
++ Request Create JSON transactions
+
+    + Headers
+
+            Content-type: application/json
+            Authorazition: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA
+
+    + body
+
+            {
+                "value": 300.01,
+                "description": "Compra 8",
+                "methodPayment": "credit_card",
+                "numberCard": "111122223334444",
+                "nameHolderCard": "Fulano de tal",
+                "expireAtCard": "06/21",
+                "cvvCard" : 123
+            }
+
+    + Attributes (object)
+        + value: 301.01 (number, required)
+        + description: Compra 08 (string, required)
+        + numberCard: 1111222233334444 (string, required)
+        + nameHolderCard: Fulano de tal (string, required)
+        + expireAtCard: 06/21 (string, required)
+        + cvvCard: 123(number, required)
+
+
++ Response 200 (application/json)
+
+    + body
+
+            {
+                "id": 150,
+                "value": "300.01",
+                "description": "Compra 8",
+                "methodPayment": "credit_card",
+                "numberCard": 444,
+                "nameHolderCard": "Bruno E Rossini",
+                "cvvCard": 123,
+                "expireAtCard": "06/21",
+                "createdAt": "2019-06-11T13:55:33.147Z"
+            },
+
+# Payables [/payables]
+
+## List All [GET]
+
+Default limit 5 and page 1
+
++ Request List all
+
+    
+    + Headers
+
+            Content-type: application/json
+            Authorazition: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA
+
++ Response 200 (application/json)
+
+     + body
+
+            [
+                {
+                    "id": 140,
+                    "paymentDate": "2019-07-11",
+                    "fee": "285.01",
+                    "status": "waiting_funds",
+                    "transaction": {
+                        "expireAtCard": "06/21",
+                        "id": 149,
+                        "value": "300.01",
+                        "description": "Compra 7",
+                        "methodPayment": "credit_card",
+                        "numberCard": 444,
+                        "nameHolderCard": "Bruno E Rossini",
+                        "cvvCard": 123,
+                        "createdAt": "2019-06-11T13:18:55.936Z"
+                    }
+                },
+                {
+                    "id": 141,
+                    "paymentDate": "2019-07-11",
+                    "fee": "285.01",
+                    "status": "waiting_funds",
+                    "transaction": {
+                        "expireAtCard": "06/21",
+                        "id": 150,
+                        "value": "300.01",
+                        "description": "Compra 8",
+                        "methodPayment": "credit_card",
+                        "numberCard": 444,
+                        "nameHolderCard": "Bruno E Rossini",
+                        "cvvCard": 123,
+                        "createdAt": "2019-06-11T13:55:33.147Z"
+                    }
+                }
+            ]
+
+
+
+## List All by page/limit [GET /payables?page={page}&limit={limit}]
+
++ Parameters
+    + page (string)
+    + limit (string)
+
++ Request List all payables
+
+    
+    + Headers
+
+            Content-type: application/json
+            Authorazition: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA
+
++ Response 200 (application/json)
+
+     + body
+
+            [
+                {
+                    "id": 140,
+                    "paymentDate": "2019-07-11",
+                    "fee": "285.01",
+                    "status": "waiting_funds",
+                    "transaction": {
+                        "expireAtCard": "06/21",
+                        "id": 149,
+                        "value": "300.01",
+                        "description": "Compra 7",
+                        "methodPayment": "credit_card",
+                        "numberCard": 444,
+                        "nameHolderCard": "Bruno E Rossini",
+                        "cvvCard": 123,
+                        "createdAt": "2019-06-11T13:18:55.936Z"
+                    }
+                },
+                {
+                    "id": 141,
+                    "paymentDate": "2019-07-11",
+                    "fee": "285.01",
+                    "status": "waiting_funds",
+                    "transaction": {
+                        "expireAtCard": "06/21",
+                        "id": 150,
+                        "value": "300.01",
+                        "description": "Compra 8",
+                        "methodPayment": "credit_card",
+                        "numberCard": 444,
+                        "nameHolderCard": "Bruno E Rossini",
+                        "cvvCard": 123,
+                        "createdAt": "2019-06-11T13:55:33.147Z"
+                    }
+                }
+            ]
+
+## Avaiable payables [GET /payables/availables]
+
++ Request List all
+
+    
+    + Headers
+
+            Content-type: application/json
+            Authorazition: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA
+
++ Response 200 (application/json)
+
+     + body
+
+            {
+                "available": 100.00
+            }
+
+## Waiting funds payables [GET /payables/waitingfunds]
+
++ Request List all
+
+    
+    + Headers
+
+            Content-type: application/json
+            Authorazition: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmU1YTRjZTVkZGQ5MDI3ZTBhOTE1NzIiLCJpYXQiOjE1NDE3ODE0NTAwMTksImV4cCI6MTU0MTc4NTA1MDAxOX0.T96lldraeLR27Q8G68ktM-UiE7bNcCCDpg69NbCCykA
+
++ Response 200 (application/json)
+
+     + body
+
+            {
+                "waitingfunds": 1040.00
+            }

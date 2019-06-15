@@ -1,6 +1,6 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const server = require('../../src/index')
+const server = require('../../src/server')
 
 const { User } = require('../../src/app/models')
 const factories = require('../factories')
@@ -38,7 +38,7 @@ describe('Authenticate a user', () => {
           password: '123456'
         })
 
-      expect(response).to.be.status(401)
+      expect(response).to.be.status(400)
     })
 
     it('POST /sessions it should be able authenticate a user', async () => {
@@ -98,7 +98,6 @@ describe('Authenticate a user', () => {
 
       expect(response).to.have.status(200)
       expect(response.body).to.have.property('email')
-      expect(response.body).to.have.property('password')
     })
 
     it('POST /users it should be able validate email duplicated', async () => {

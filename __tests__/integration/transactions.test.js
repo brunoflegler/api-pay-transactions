@@ -1,8 +1,8 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const server = require('../../src/index')
+const server = require('../../src/server')
 
-const { Transaction } = require('../../src/app/models')
+const { Transaction, User } = require('../../src/app/models')
 const factories = require('../factories')
 
 const { expect } = chai
@@ -27,13 +27,14 @@ describe('Transactions by user', () => {
   })
 
   it('GET /transactions it should be not able doing transactions without found user', async () => {
+    const user = await factories.create('User')
+    const token = await user.generateToken()
+    await User.destroy({ where: {} })
+
     const response = await chai
       .request(server)
       .get('/transactions')
-      .set(
-        'Authorization',
-        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTY2LCJpYXQiOjE1NjAzMzg2NjEsImV4cCI6MTU2MDM0MjI2MX0.2GJsHpPDNauCts9hD1L-EkBAiI5_LM8hPIoOkB_7TEg`
-      )
+      .set('Authorization', `Bearer ${token}`)
     expect(response).to.be.status(401)
   })
 

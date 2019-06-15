@@ -1,15 +1,17 @@
 {
-    "name": "api-pay-transactions",
+    "name": "api-psp",
     "version": "1.0.0",
     "main": "index.js",
     "repository": "https://github.com/brunoflegler/api-pay-transactions.git",
     "author": "Bruno Flegler Dal Col <bruno.flegler@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "nodemon ./src/index.js",
-        "test": "set NODE_ENV=test && nyc mocha __tests__/**/*.test.js --exit"
+        "dev": "yarn docs && nodemon ./src/index.js",
+        "test": "set NODE_ENV=test && nyc mocha __tests__/**/*.test.js --exit",
+        "docs": "aglio -i ./public/docs/documentation.apib -o ./public/index.html"
     },
     "devDependencies": {
+        "aglio": "^2.3.0",
         "chai": "^4.2.0",
         "chai-http": "^4.3.0",
         "eslint": "^5.16.0",
@@ -29,6 +31,7 @@
         "dotenv": "^8.0.0",
         "express": "^4.17.1",
         "express-async-handler": "^1.1.4",
+        "express-pino-logger": "^4.0.0",
         "express-validation": "^1.0.2",
         "joi": "^14.3.1",
         "jsonwebtoken": "^8.5.1",

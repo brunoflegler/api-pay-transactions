@@ -19,20 +19,23 @@ Router.post('/users', handle(controllers.UserController.store))
 
 Router.post('/sessions', handle(controllers.SessionController.store))
 
-Router.use(authMiddleware)
-
 /**
  * List user
  */
-Router.get('/users', handle(controllers.UserController.index))
+Router.get('/users', authMiddleware, handle(controllers.UserController.index))
 
 /**
  * transactions
  */
 
-Router.get('/transactions', handle(controllers.TransactionController.index))
+Router.get(
+  '/transactions',
+  authMiddleware,
+  handle(controllers.TransactionController.index)
+)
 Router.post(
   '/transactions',
+  authMiddleware,
   validate(validators.Transaction),
   handle(controllers.TransactionController.store)
 )
@@ -41,7 +44,11 @@ Router.post(
  * payables
  */
 
-Router.get('/payables', handle(controllers.PayableController.index))
+Router.get(
+  '/payables',
+  authMiddleware,
+  handle(controllers.PayableController.index)
+)
 
 /**
  * avaiable payables
@@ -49,6 +56,7 @@ Router.get('/payables', handle(controllers.PayableController.index))
 
 Router.get(
   '/payables/availables',
+  authMiddleware,
   handle(controllers.AvailablePayableController.index)
 )
 
@@ -58,6 +66,7 @@ Router.get(
 
 Router.get(
   '/payables/waitingfunds',
+  authMiddleware,
   handle(controllers.WaitingFundsPayableController.index)
 )
 

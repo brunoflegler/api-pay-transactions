@@ -8,6 +8,7 @@ const express = require('express')
 const cors = require('cors')
 const validate = require('express-validation')
 const Youch = require('youch')
+const path = require('path')
 
 class App {
   constructor () {
@@ -15,6 +16,11 @@ class App {
     this.middlewares()
     this.routes()
     this.exception()
+    this.views()
+  }
+
+  views () {
+    this.express.use(express.static(path.resolve(__dirname, '..', 'public')))
   }
 
   middlewares () {

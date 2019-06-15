@@ -1,7 +1,7 @@
 const chai = require('chai')
 const factories = require('../factories')
 
-const StatusPayable = require('./../../src/app/enums/StatusPayable')
+const StatusPayable = require('../../src/app/enums/StatusPayable')
 
 const {
   validateMethodPayment
