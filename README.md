@@ -18,7 +18,6 @@ Installation is done using the npm install command:
 ```sh
 $ npm install
 ```
-
 Or run Yarn install command:
 
 ```sh
@@ -40,7 +39,6 @@ To run the test suite, first install the dependencies, and configure .env.test, 
 ```sh
 $ npm test
 ```
-
 Or run Yarn:
 
 ```sh
