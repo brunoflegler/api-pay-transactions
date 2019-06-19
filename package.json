@@ -6,7 +6,7 @@
     "author": "Bruno Flegler Dal Col <bruno.flegler@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "yarn docs && nodemon ./src/index.js",
+        "dev": "nodemon ./src/index.js",
         "test": "set NODE_ENV=test && nyc mocha __tests__/**/*.test.js --exit",
         "docs": "aglio -i ./public/docs/documentation.apib -o ./public/index.html"
     },
@@ -57,6 +57,8 @@
             "text-summary",
             "html"
         ],
+        "report-dir": "./public/output/coverage",
+        "temp-dir": "./public/output/.nyc_output",
         "sourceMap": true,
         "instrument": true
     }

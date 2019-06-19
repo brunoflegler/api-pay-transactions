@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    return res.status(401).json({ error: 'Token not provided' })
+    return res.status(401).json({ message: 'Token not provided' })
   }
 
   const [, token] = authHeader.split(' ')
@@ -19,13 +19,18 @@ module.exports = async (req, res, next) => {
     const user = await User.findByPk(decoded.id)
 
     if (!user) {
-      return res.status(401).json({ error: 'User not found' })
+      return res.status(401).json({ message: 'User not found' })
     }
 
     req.user = { id: user.id }
 
     next()
   } catch (err) {
-    return res.status(401).json({ error: 'Token not provided' })
+    /* istanbul ignore if */
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({ message: 'Token expired' })
+    }
+
+    return res.status(401).json({ message: 'Token others error' })
   }
 }
