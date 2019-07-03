@@ -4,6 +4,7 @@ const { Transaction } = require('../models')
 
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const db = require('./../../app/models')
 
 class TransactionController {
   async index (req, res) {
@@ -36,13 +37,25 @@ class TransactionController {
 
   async store (req, res) {
     const { ...data } = req.body
+    const sequelizeTransaction = await db.sequelize.transaction()
 
-    const transaction = await Transaction.create({
-      ...data,
-      userId: req.user.id
-    })
+    try {
+      const transaction = await Transaction.create(
+        {
+          ...data,
+          userId: req.user.id
+        },
+        {
+          transaction: sequelizeTransaction
+        }
+      )
 
-    return res.json(transaction)
+      await sequelizeTransaction.commit()
+      return res.json(transaction)
+    } catch (err) {
+      await sequelizeTransaction.rollback()
+      return res.status(500).json({ message: 'Transaction error' })
+    }
   }
 }
 

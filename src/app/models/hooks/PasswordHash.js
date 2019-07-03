@@ -1,6 +1,6 @@
 'use strict'
 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 async function passwordHash (user) {
   user.passwordHash = await bcrypt.hash(user.password, 10)

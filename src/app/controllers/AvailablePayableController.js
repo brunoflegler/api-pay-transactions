@@ -6,6 +6,21 @@ const Op = Sequelize.Op
 
 class AvailablePayableController {
   async index (req, res) {
+    const { status } = req.query()
+
+    const param = req.params.status
+
+    if (
+      !param &&
+      (param === StatusPayable.PAID || StatusPayable.WAITING_FUNDS)
+    ) {
+      res.status(500).send({ message: 'Error' })
+    }
+
+    if (!status) {
+      res.status(500).send({ message: 'Status is required' })
+    }
+
     const payables = await Payable.findAll({
       include: [
         {

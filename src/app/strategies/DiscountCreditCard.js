@@ -1,7 +1,7 @@
 const moment = require('moment')
 const StatusPayable = require('../enums/StatusPayable')
 
-class DiscountDebit {
+class DiscountCreditCard {
   calculate (transaction) {
     return {
       paymentDate: moment().add(30, 'days'),
@@ -12,4 +12,4 @@ class DiscountDebit {
   }
 }
 
-module.exports = new DiscountDebit()
+module.exports = new DiscountCreditCard()

@@ -4,7 +4,7 @@ const StatusPayable = require('../enums/StatusPayable')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
-class AvailablePayableController {
+class WaitingFundsPayableController {
   async index (req, res) {
     const payables = await Payable.findAll({
       include: [
@@ -30,4 +30,4 @@ class AvailablePayableController {
   }
 }
 
-module.exports = new AvailablePayableController()
+module.exports = new WaitingFundsPayableController()
