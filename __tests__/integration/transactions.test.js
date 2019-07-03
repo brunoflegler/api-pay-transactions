@@ -81,4 +81,19 @@ describe('Transactions by user', () => {
       .send(transaction)
     expect(response).to.be.status(200)
   })
+
+  it('POST /transactions it should be able create transaction with rollback', async () => {
+    const transaction = await factories.attrs('Transaction', {
+      methodPayment: 'create error field'
+    })
+    const user = await factories.create('User')
+    const token = await user.generateToken()
+
+    const response = await chai
+      .request(server)
+      .post('/transactions')
+      .set('Authorization', `Bearer ${token}`)
+      .send(transaction)
+    expect(response).to.be.status(500)
+  })
 })

@@ -37,6 +37,7 @@ class TransactionController {
 
   async store (req, res) {
     const { ...data } = req.body
+
     const sequelizeTransaction = await db.sequelize.transaction()
 
     try {
