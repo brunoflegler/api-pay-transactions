@@ -5,24 +5,11 @@ const Op = Sequelize.Op
 
 class PayableController {
   async index (req, res) {
-    const { page, limit } = req.query
-
     const payables = await Payable.findAll({
       include: [
         {
           model: Transaction,
           as: 'transaction',
-          attributes: [
-            'id',
-            'value',
-            'description',
-            'methodPayment',
-            'numberCard',
-            'nameHolderCard',
-            'expireAtCard',
-            'cvvCard',
-            'createdAt'
-          ],
           where: {
             userId: {
               [Op.eq]: req.user.id
@@ -30,13 +17,15 @@ class PayableController {
           }
         }
       ],
-      offset: page - 1 || 0,
-      limit: limit || 5,
-      order: [['paymentDate', 'DESC']],
-      attributes: ['id', 'paymentDate', 'fee', 'status']
+      attributes: ['fee'],
+      where: {
+        status: { [Op.eq]: req.params.status }
+      }
     })
 
-    return res.json(payables)
+    const sum = payables.reduce((acc, i) => acc + parseFloat(i.fee), 0)
+
+    return res.json({ total: sum })
   }
 }
 
