@@ -19,18 +19,7 @@ describe('Payables by user', () => {
     })
   })
 
-  it('GET /payables it should be not able list payables', async () => {
-    const user = await factories.create('User')
-    const token = await user.generateToken()
-
-    const response = await chai
-      .request(server)
-      .get('/payables')
-      .set('Authorization', `Bearer ${token}`)
-    expect(response).to.be.status(200)
-  })
-
-  it('GET /payables/availables it should be everything the customer has already received ', async () => {
+  it('GET /payables/:status it should be everything the customer has already received ', async () => {
     const user = await factories.create('User')
 
     await factories.create('Transaction', {
@@ -49,16 +38,16 @@ describe('Payables by user', () => {
 
     const response = await chai
       .request(server)
-      .get('/payables/availables')
+      .get('/payables/paid')
       .set('Authorization', `Bearer ${token}`)
 
-    const { available } = response.body
+    const { total } = response.body
 
     // discount 3% = (100 + 100) * 0.97
-    expect(available).to.equals(194.0)
+    expect(total).to.equals(194.0)
   })
 
-  it('GET /payables/waitingfunds it should be everything the customer has to receive', async () => {
+  it('GET /payables/:status it should be everything the customer has to receive', async () => {
     const user = await factories.create('User')
 
     await factories.create('Transaction', {
@@ -77,12 +66,37 @@ describe('Payables by user', () => {
 
     const response = await chai
       .request(server)
-      .get('/payables/waitingfunds')
+      .get('/payables/waiting_funds')
       .set('Authorization', `Bearer ${token}`)
 
-    const { waitingfunds } = response.body
+    const { total } = response.body
 
     // discount 5% = (100 + 100) * 0.95
-    expect(waitingfunds).to.equals(190.0)
+    expect(total).to.equals(190.0)
+  })
+
+  it('GET /payables/:status it should be everything the customer has to receive params error', async () => {
+    const user = await factories.create('User')
+
+    await factories.create('Transaction', {
+      value: 100,
+      methodPayment: 'credit_card',
+      userId: user.id
+    })
+
+    await factories.create('Transaction', {
+      value: 100,
+      methodPayment: 'credit_card',
+      userId: user.id
+    })
+
+    const token = await user.generateToken()
+
+    const response = await chai
+      .request(server)
+      .get('/payables/waiting')
+      .set('Authorization', `Bearer ${token}`)
+
+    expect(response).to.be.status(400)
   })
 })
