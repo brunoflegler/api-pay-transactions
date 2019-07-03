@@ -74,4 +74,29 @@ describe('Payables by user', () => {
     // discount 5% = (100 + 100) * 0.95
     expect(total).to.equals(190.0)
   })
+
+  it('GET /payables/:status it should be everything the customer has to receive params error', async () => {
+    const user = await factories.create('User')
+
+    await factories.create('Transaction', {
+      value: 100,
+      methodPayment: 'credit_card',
+      userId: user.id
+    })
+
+    await factories.create('Transaction', {
+      value: 100,
+      methodPayment: 'credit_card',
+      userId: user.id
+    })
+
+    const token = await user.generateToken()
+
+    const response = await chai
+      .request(server)
+      .get('/payables/waiting')
+      .set('Authorization', `Bearer ${token}`)
+
+    expect(response).to.be.status(400)
+  })
 })
