@@ -34,6 +34,7 @@ Router.get('/users', authMiddleware, handle(controllers.UserController.index))
 
 Router.get(
   '/transactions',
+  validate(validators.TransactionQuery),
   authMiddleware,
   handle(controllers.TransactionController.index)
 )
