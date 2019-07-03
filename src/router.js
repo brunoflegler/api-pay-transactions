@@ -49,29 +49,10 @@ Router.post(
  */
 
 Router.get(
-  '/payables',
+  '/payables/:status',
+  validate(validators.PayableParams),
   authMiddleware,
   handle(controllers.PayableController.index)
-)
-
-/**
- * avaiable payables
- */
-
-Router.get(
-  '/payables/availables',
-  authMiddleware,
-  handle(controllers.AvailablePayableController.index)
-)
-
-/**
- * waiting funds payables
- */
-
-Router.get(
-  '/payables/waitingfunds',
-  authMiddleware,
-  handle(controllers.WaitingFundsPayableController.index)
 )
 
 module.exports = Router
