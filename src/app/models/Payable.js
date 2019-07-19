@@ -32,7 +32,18 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     {
-      tableName: 'payables'
+      tableName: 'payables',
+      hooks: {
+        afterCreate: function (payable, options) {
+          if (options.transaction) {
+            // Save done within a transaction, wait until transaction is committed to
+            // notify listeners the instance has been saved
+            options.transaction.afterCommit(() =>
+              console.log('commit success payable')
+            )
+          }
+        }
+      }
     }
   )
 
