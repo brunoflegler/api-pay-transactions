@@ -3,16 +3,11 @@ const MethodPayment = require('../../enums/MethodPayment')
 const DiscountDebitCard = require('../../strategies/DiscountDebitCard')
 const DiscountCreditCard = require('../../strategies/DiscountCreditCard')
 
-async function createPayableByTransaction (
-  transaction,
-  { transaction: sequelizeTransaction }
-) {
-  const payable = validateMethodPayment(transaction, {
-    transaction: sequelizeTransaction
-  })
+async function createPayableByTransaction (transaction, options) {
+  const payable = validateMethodPayment(transaction)
 
   await this.associations.payable.target.create(payable, {
-    transaction: sequelizeTransaction
+    transaction: options.transaction
   })
 }
 
